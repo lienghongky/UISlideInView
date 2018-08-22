@@ -10,16 +10,27 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet var bottomView: UISlidInView!
+    @IBOutlet var SlidInView: UISlidInView!
+    var isIn = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        SlidInView.offSet = 10
+        SlidInView.offSet = 10
+        SlidInView.leakDirection = .left
+        bottomView.offSet = 10
+        bottomView.centerAlignOffSet = 300
+        
+        bottomView.leakDirection = .right
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+   
+    @IBAction func Action(_ sender: Any) {
+        SlidInView.PushView()
+        bottomView.PushView(animationOption: UIViewAnimationOptions.curveEaseIn)
     }
-
-
+    
 }
 

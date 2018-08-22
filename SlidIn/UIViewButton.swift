@@ -8,7 +8,9 @@
 
 import UIKit
 
-class UIViewButton: UIView,UIGestureRecognizerDelegate{
+class UIViewButton: UIControl,UIGestureRecognizerDelegate{
+    
+
  
     @IBInspectable var CornerRadius:CGFloat = 0{
         didSet{
@@ -50,18 +52,24 @@ class UIViewButton: UIView,UIGestureRecognizerDelegate{
     var dim:UIView?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initial()
+       
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initial()
+       
     }
-    func initial(){
-       dim = UIView(frame: frame)
+    override func awakeFromNib() {
+        initialDim()
+    }
+    func initialDim(){
+        dim = (dim == nil) ? UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)) : dim
        dim?.layer.cornerRadius = CornerRadius
-       dim?.layer.masksToBounds = true
+       dim?.backgroundColor = UIColor.clear
+       self.addSubview(dim!)
+       dim?.center = CGPoint(x: bounds.midX, y: bounds.midY)
      
     }
+    
     func addTarget( Target:Any?, action: Selector){
         self.addGestureRecognizer(UITapGestureRecognizer(target: Target, action: action))
     }
@@ -77,9 +85,8 @@ class UIViewButton: UIView,UIGestureRecognizerDelegate{
     }
     func identityState(){
         UIView.animate(withDuration: 0.2, animations: {
-            self.dim?.center = self.center
-            self.dim?.frame = self.bounds
-            self.dim?.backgroundColor = #colorLiteral(red: 0.1462960025, green: 0.1462960025, blue: 0.1462960025, alpha: 0.2456389127)
+            self.dim?.layer.transform = CATransform3DIdentity
+            self.dim?.backgroundColor = #colorLiteral(red: 0.1462960025, green: 0.1462960025, blue: 0.1462960025, alpha: 0.3)
             
         }) { (t) in
             self.dim?.backgroundColor = UIColor.clear
@@ -87,22 +94,19 @@ class UIViewButton: UIView,UIGestureRecognizerDelegate{
         }
     }
     func changedState(){
-        
-        dim?.frame = bounds
-        dim?.frame.size = CGSize(width: 10, height: 10)
-        dim?.layer.cornerRadius = 5
-        dim?.center = self.center
+        let transform = CATransform3DScale(CATransform3DIdentity, 0.2 ,(dim?.frame.width)! * 0.2/(dim?.frame.height)!, 0)
+        dim?.layer.transform = transform
+        dim?.layer.cornerRadius = (dim?.frame.width)! / 2
         dim!.backgroundColor = UIColor.clear
         addSubview(dim!)
+        dim?.layer.masksToBounds = true
        
         UIView.animate(withDuration: 0.2, animations: {
-            self.dim?.center = self.center
-            self.dim?.frame = self.bounds
+            self.dim?.layer.transform = CATransform3DIdentity
             self.dim?.backgroundColor = #colorLiteral(red: 0.1462960025, green: 0.1462960025, blue: 0.1462960025, alpha: 0.2456389127)
             
         }) { (t) in
-           
-            self.dim?.layer.cornerRadius = 0
+          self.dim?.layer.cornerRadius = self.CornerRadius
         }
     }
     
