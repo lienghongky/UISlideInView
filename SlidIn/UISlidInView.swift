@@ -32,9 +32,9 @@ class UISlidInView:UIView{
     
     var animationOption:UIViewAnimationOptions = .curveEaseInOut
     var duration:TimeInterval = 0.5
-    var delay:TimeInterval = 0.1
-    var dumping:CGFloat = 0.5
-    var initialSpringVelocity:CGFloat = 0
+    var delay:TimeInterval = 0.0
+    var dumping:CGFloat = 0.8
+    var initialSpringVelocity:CGFloat = 0.0
     
     var showOffSet:CGFloat = 0
     var hideOffSet:CGFloat = 0
@@ -69,88 +69,46 @@ class UISlidInView:UIView{
     // initail()
     }
     
-    func initail(){
-        guard UIApplication.shared.keyWindow != nil else {
-            return
-        }
-        let keyWindow = UIApplication.shared.keyWindow!
-        
-    var hiddenOrigin:CGPoint!
-    var showOringin:CGPoint!
-
     
-    
-    switch leakDirection {
-    case .top:
-    hiddenOrigin = CGPoint(x: 0, y: hideOffSet - self.frame.height )
-    showOringin = CGPoint(x: 0, y: -showOffSet)
-    break
-    case .bottom:
-    hiddenOrigin = CGPoint(x: 0, y: keyWindow.frame.height - hideOffSet)
-    showOringin = CGPoint(x: 0, y: keyWindow.frame.height + showOffSet - self.frame.height)
-    break
-    case .left:
-    hiddenOrigin = CGPoint(x: hideOffSet-self.frame.width, y: 0)
-    showOringin = CGPoint(x: showOffSet, y: 0)
-    break
-    case .right:
-    hiddenOrigin = CGPoint(x: keyWindow.frame.width - hideOffSet, y: 0)
-    showOringin = CGPoint(x:keyWindow.frame.width - showOffSet - self.frame.width, y: 0)
-    break
-    }
-    
-    let startOrigin:CGPoint = isHidding ? hiddenOrigin : showOringin
-    //let endOrigin:CGPoint = isHidding ? showOringin : hiddenOrigin
-    
-    
-    keyWindow.addSubview(self)
-    self.frame.origin = startOrigin
-        
-        switch self.leakDirection{
-        case .top , .bottom:
-            self.center.x = keyWindow.center.x + centerAlignOffSet
-            break
-        case .left , .right:
-            self.center.y = keyWindow.center.y + centerAlignOffSet
-            break
-        }
-
-    }
    private var isHidding:Bool = true{
         didSet{
             guard UIApplication.shared.keyWindow != nil else {
                 return
             }
+          
             let keyWindow = UIApplication.shared.keyWindow!
             //let keyWindow = self.ViewController!.view!
+            
+            
             var hiddenOrigin:CGPoint!
             var showOringin:CGPoint!
 
             switch leakDirection {
             case .top:
-                hiddenOrigin = CGPoint(x: 0, y: hideOffSet - self.frame.height )
-                showOringin = CGPoint(x: 0, y: +showOffSet)
+                hiddenOrigin = CGPoint(x: 0, y: 0 )
+                showOringin = CGPoint(x: 0, y: self.frame.height)
                 break
             case .bottom:
-                hiddenOrigin = CGPoint(x: 0, y: keyWindow.frame.height - hideOffSet)
-                showOringin = CGPoint(x: 0, y: keyWindow.frame.height - showOffSet - self.frame.height)
+                hiddenOrigin = CGPoint(x: 0, y:  0)
+                showOringin = CGPoint(x: 0, y: -self.frame.height)
                 break
             case .left:
-                hiddenOrigin = CGPoint(x: hideOffSet-self.frame.width, y: 0)
-                showOringin = CGPoint(x: showOffSet, y: 0)
+                hiddenOrigin = CGPoint(x: 0, y: 0)
+                showOringin = CGPoint(x: self.frame.width, y: 0)
                 break
             case .right:
-                hiddenOrigin = CGPoint(x: keyWindow.frame.width - hideOffSet, y: 0)
-                showOringin = CGPoint(x:keyWindow.frame.width - showOffSet - self.frame.width, y: 0)
+                hiddenOrigin = CGPoint(x:0, y: 0)
+                showOringin = CGPoint(x: -self.frame.width, y: 0)
                 break
             }
             
             let startOrigin:CGPoint = isHidding ? showOringin : hiddenOrigin
             let endOrigin:CGPoint = isHidding ? hiddenOrigin : showOringin
-            
-            
-            keyWindow.addSubview(self)
-            self.frame.origin = startOrigin
+            let startAF = CGAffineTransform(translationX: startOrigin.x, y: startOrigin.y)
+            let endAF = CGAffineTransform.init(translationX: endOrigin.x, y: endOrigin.y)
+          ///  keyWindow.addSubview(self)
+            //self.frame.origin = startOrigin
+            self.layer.setAffineTransform(startAF)
             
             switch self.leakDirection{
             case .top , .bottom:
@@ -161,7 +119,7 @@ class UISlidInView:UIView{
                 break
             }
             UIView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: dumping, initialSpringVelocity: initialSpringVelocity, options: animationOption, animations: {
-                self.frame.origin = endOrigin
+                self.layer.setAffineTransform(endAF)
                 
                 
                 switch self.leakDirection{
@@ -198,9 +156,57 @@ class UISlidInView:UIView{
         self.leakDirection = direction != nil ? direction! : self.leakDirection
         self.ShowOffSet = showOffSet != nil ? showOffSet! : self.showOffSet
         self.HideOffSet = hideOffSet != nil ? hideOffSet! : self.hideOffSet
-        self.isHidding = In != nil ? In! : !self.isHidding
+        if In != nil && In != isHidding{
+            self.isHidding = In!
+        }
     }
-   
+    func initail(){
+        guard UIApplication.shared.keyWindow != nil else {
+            return
+        }
+        let keyWindow = UIApplication.shared.keyWindow!
+        
+        var hiddenOrigin:CGPoint!
+        var showOringin:CGPoint!
+        
+        
+        
+        switch leakDirection {
+        case .top:
+            hiddenOrigin = CGPoint(x: 0, y: hideOffSet - self.frame.height )
+            showOringin = CGPoint(x: 0, y: -showOffSet)
+            break
+        case .bottom:
+            hiddenOrigin = CGPoint(x: 0, y:  keyWindow.frame.height - hideOffSet)
+            showOringin = CGPoint(x: 0, y: keyWindow.frame.height - self.frame.height - showOffSet )
+            break
+        case .left:
+            hiddenOrigin = CGPoint(x: hideOffSet-self.frame.width, y: 0)
+            showOringin = CGPoint(x: showOffSet, y: 0)
+            break
+        case .right:
+            hiddenOrigin = CGPoint(x: keyWindow.frame.width - hideOffSet, y: 0)
+            showOringin = CGPoint(x:keyWindow.frame.width - showOffSet - self.frame.width, y: 0)
+            break
+        }
+        
+        let startOrigin:CGPoint = isHidding ? hiddenOrigin : showOringin
+        //let endOrigin:CGPoint = isHidding ? showOringin : hiddenOrigin
+        
+        
+        // keyWindow.addSubview(self)
+        self.frame.origin = startOrigin
+        
+        switch self.leakDirection{
+        case .top , .bottom:
+            self.center.x = keyWindow.center.x + centerAlignOffSet
+            break
+        case .left , .right:
+            self.center.y = keyWindow.center.y + centerAlignOffSet
+            break
+        }
+        
+    }
 }
 
 extension UIApplication{

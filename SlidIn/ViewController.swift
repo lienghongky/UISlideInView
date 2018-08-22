@@ -18,19 +18,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         SlidInView.offSet = 10
-        SlidInView.offSet = 10
-        SlidInView.leakDirection = .left
-        bottomView.offSet = 10
-        bottomView.centerAlignOffSet = 300
+       
+        SlidInView.leakDirection = .bottom
         
-        bottomView.leakDirection = .right
+        
+        SlidInView.centerAlignOffSet = 100
+        bottomView.offSet =  0
+       // bottomView.centerAlignOffSet = 20
+        
+        
+       // bottomView.leakDirection = .bottom
+        //self.view.addSubview(bottomView)
+        self.view.addSubview(SlidInView)
     }
 
    
     @IBAction func Action(_ sender: Any) {
-        SlidInView.PushView()
-        bottomView.PushView(animationOption: UIViewAnimationOptions.curveEaseIn)
+        SlidInView.PushView(Push:false)
+        //bottomView.PushView(Push:false)
     }
     
+    @IBAction func hide(_ sender: Any) {
+        
+        SlidInView.PushView(Push:true)
+        //bottomView.PushView(Push:true)
+    }
 }
 
