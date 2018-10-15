@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,36 +19,58 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mfv-4J-2PI">
-                                <rect key="frame" x="168" y="635" width="38" height="30"/>
+                                <rect key="frame" x="168.5" y="635" width="38" height="30"/>
                                 <state key="normal" title="Show"/>
                                 <connections>
                                     <action selector="Action:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5xK-ie-zgK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qtl-d3-WpX">
-                                <rect key="frame" x="130" y="635" width="30" height="30"/>
+                                <rect key="frame" x="130.5" y="635" width="30" height="30"/>
                                 <state key="normal" title="hide"/>
                                 <connections>
                                     <action selector="hide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UoN-fE-wSR"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LJQ-aI-Hiu" customClass="HUISlider" customModule="SlidIn" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="262"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="262" id="I5y-Tw-DwE"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7st-1k-nLB">
+                                <rect key="frame" x="16" y="322" width="335" height="40"/>
+                                <color key="backgroundColor" red="0.41176470590000003" green="0.69019607839999997" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="qhX-ca-aJ5"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Mfv-4J-2PI" secondAttribute="bottom" constant="2" id="45l-Q7-Q7f"/>
+                            <constraint firstAttribute="trailing" secondItem="7st-1k-nLB" secondAttribute="trailing" constant="24" id="Cci-2e-5yf"/>
+                            <constraint firstItem="7st-1k-nLB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="GYO-NG-ohu"/>
                             <constraint firstItem="qtl-d3-WpX" firstAttribute="centerY" secondItem="Mfv-4J-2PI" secondAttribute="centerY" id="Gg7-Zb-3DT"/>
                             <constraint firstItem="Mfv-4J-2PI" firstAttribute="leading" secondItem="qtl-d3-WpX" secondAttribute="trailing" constant="8" id="Ix1-tu-U9t"/>
+                            <constraint firstAttribute="bottom" secondItem="7st-1k-nLB" secondAttribute="bottom" constant="305" id="Ld7-cQ-64y"/>
+                            <constraint firstItem="LJQ-aI-Hiu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MxZ-eF-EWY"/>
+                            <constraint firstItem="LJQ-aI-Hiu" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pEh-lV-dDy"/>
                             <constraint firstItem="Mfv-4J-2PI" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="vRP-AG-l17"/>
+                            <constraint firstItem="LJQ-aI-Hiu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="y4f-Pz-a7s"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="Dragview" destination="7st-1k-nLB" id="0rb-dn-1qe"/>
                         <outlet property="SlidInView" destination="1Hw-Z2-yAD" id="ajr-ki-wAk"/>
                         <outlet property="bottomView" destination="YE4-5e-dtI" id="nYf-i0-1Ko"/>
+                        <outlet property="container" destination="LJQ-aI-Hiu" id="2o6-it-Wfy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="1Hw-Z2-yAD" customClass="UISlidInView" customModule="SlidIn" customModuleProvider="target">
+                <view contentMode="scaleToFill" id="1Hw-Z2-yAD" customClass="UISlideInView" customModule="SlidIn" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="83" height="246"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -59,16 +81,26 @@
                                 <constraint firstAttribute="height" constant="20" id="JPZ-aP-NjY"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yaE-Bz-wvv">
+                            <rect key="frame" x="0.0" y="226" width="83" height="20"/>
+                            <color key="backgroundColor" red="0.81568627449999997" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="pcN-vd-j3S"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="yaE-Bz-wvv" firstAttribute="leading" secondItem="M1x-Qj-fPH" secondAttribute="leading" id="duy-AB-oLT"/>
+                        <constraint firstItem="yaE-Bz-wvv" firstAttribute="trailing" secondItem="M1x-Qj-fPH" secondAttribute="trailing" id="iQz-DK-A1i"/>
                         <constraint firstItem="5Ee-aQ-B44" firstAttribute="leading" secondItem="M1x-Qj-fPH" secondAttribute="leading" id="rTe-m8-EWY"/>
                         <constraint firstAttribute="trailing" secondItem="5Ee-aQ-B44" secondAttribute="trailing" id="sIb-EX-rNs"/>
-                        <constraint firstItem="5Ee-aQ-B44" firstAttribute="top" secondItem="M1x-Qj-fPH" secondAttribute="top" id="vCM-8M-jim"/>
+                        <constraint firstItem="5Ee-aQ-B44" firstAttribute="top" secondItem="1Hw-Z2-yAD" secondAttribute="top" id="vCM-8M-jim"/>
+                        <constraint firstAttribute="bottom" secondItem="yaE-Bz-wvv" secondAttribute="bottom" id="vhD-tH-vEq"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="M1x-Qj-fPH"/>
                 </view>
-                <view contentMode="scaleToFill" id="YE4-5e-dtI" customClass="UISlidInView" customModule="SlidIn" customModuleProvider="target">
+                <view contentMode="scaleToFill" id="YE4-5e-dtI" customClass="UISlideInView" customModule="SlidIn" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="74" height="248"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
